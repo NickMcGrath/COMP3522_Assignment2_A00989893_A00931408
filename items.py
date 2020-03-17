@@ -51,7 +51,29 @@ class SantasWorkShop(Toy):
         super().__init__(**kwarg)
 
 
-# todo add other toys
+class RCSpider(Toy):
+    """
+    The remote controlled spider is the toy to get during Halloween.
+    """
+    def __init__(self, speed: int, jump_height: int, glows_in_dark: bool,
+                 type, **kwargs):
+        super().__init__(**kwargs)
+        self.speed = speed
+        self.jump_height = jump_height
+        self.glows_in_dark = True
+        self.type = 'Tarantula', 'WolfSpider'
+
+
+class RobotBunny(Toy):
+    """
+
+    """
+    def __init__(self, no_of_sounds: int, colour: list, **kwargs):
+        super().__init__(**kwargs)
+        self.no_of_sounds = no_of_sounds
+        self.colour = ['Pink', 'Yellow', 'Blue']
+
+
 class StuffedAnimal(abc.ABC):
     """
     Abstract base class that represents properties that each stuffed
@@ -77,6 +99,18 @@ class StuffedAnimal(abc.ABC):
         self.fabric = fabric
 
 
+class DancingSkeleton(StuffedAnimal):
+    """
+
+    """
+
+    def __init__(self, glows_in_dark: bool, **kwargs):
+        super().__init__(**kwargs)
+        kwargs['fabric'] = 'Acrylic'
+        kwargs['stuffing'] = 'Polyester Fiberfill'
+        self.glows_in_dark = True
+
+
 class Reindeer(StuffedAnimal):
     """
     A StuffedAnimal that is made out of cotton, stuffed with wool, and
@@ -94,7 +128,20 @@ class Reindeer(StuffedAnimal):
         super().__init__(**kwargs)
 
 
-# todo add other scuffed animals (get it?)
+class EasterBunny(StuffedAnimal):
+    """
+
+    """
+
+    def __init__(self, colour, **kwargs):
+        super().__init__(**kwargs)
+        kwargs['fabric'] = 'Linen'
+        kwargs['stuffing'] = 'Polyester Fiberfill'
+        self.colour = ['Pink', 'Yellow', 'Blue']
+
+
+
+# todo add other scuffed animals (get it?)...no
 class Candy(abc.ABC):
     """
     Abstract base class that represents properties that each candy has in
@@ -117,6 +164,19 @@ class Candy(abc.ABC):
         self.has_nuts = has_nuts
         self.is_lactose_free = is_lactose_free
 
+class PumpkinCaramelToffee(Candy):
+    """
+    If it doesn't have artificial pumpkin, you're doing fall wrong!
+    Enjoy a Pumpkin Carmel Toffee with your Pumpkin Spiced Latte while
+    trudging through a pumpkin patch. Do it for the 'gram!
+    """
+
+    def __init__(self, type, **kwargs):
+        super().__init__(**kwargs)
+        self.type = 'SeaSalt', 'Regular'
+        kwargs['is_lactose_free'] = False
+        kwargs['has_nuts'] = True
+
 
 class CandyCanes(Candy):
     """
@@ -134,4 +194,17 @@ class CandyCanes(Candy):
         kwargs['has_nuts'] = False
         super().__init__(**kwargs)
 
-# todo add other candy
+
+class CremeEggs(Candy):
+    """
+    The candy that confused my childhood. An Easter bunny and a chicken
+    fall in love and lay...chocolate eggs? Evolution for the win!
+    """
+
+    def __init__(self, pack_size: int, **kwargs):
+        super().__init__(**kwargs)
+        self.pack_size = pack_size
+        kwargs['is_lactose_free'] = False
+        kwargs['has_nuts'] = True
+
+
