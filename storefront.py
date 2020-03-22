@@ -33,7 +33,11 @@ class Store:
             print("1. Process Web Orders")
             print("2. Check the Inventory")
             print("3. Exit and Print the Daily Transaction Report")
-            user_input = int(input("> "))
+            try:
+                user_input = int(input("> "))
+            except ValueError:
+                print('Enter an INT!')
+                continue
 
             if user_input == 1:
                 pass

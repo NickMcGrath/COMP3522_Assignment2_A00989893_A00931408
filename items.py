@@ -105,7 +105,8 @@ class DancingSkeleton(StuffedAnimal):
     """
 
     def __init__(self, glows_in_dark: bool, **kwargs):
-        super().__init__(**kwargs)
+        super().__init__(**kwargs) #todo note if you pass the kwargs here
+        # the super will not get the values changed below
         kwargs['fabric'] = 'Acrylic'
         kwargs['stuffing'] = 'Polyester Fiberfill'
         self.glows_in_dark = True
