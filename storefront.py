@@ -4,13 +4,14 @@ inventory, getting items from a factory class if the store doesn't have
 enough stock, and generating the daily transaction report.
 """
 
+
 class Store:
     """
     A Store is responsible for receiving, maintaining, and retrieving
     order items and generating the daily transaction report.
     """
 
-    def __init__(self, item_list = None):
+    def __init__(self, item_list=None):
         """
         Store is initialized with empty inventory.
         :param item_list: a sequence of Order objects.
@@ -52,9 +53,11 @@ class Store:
                 print("Invalid option.")
         print("Come again!")
 
+
 def main():
     store = Store()
     store.user_menu()
+
 
 if __name__ == '__main__':
     main()
