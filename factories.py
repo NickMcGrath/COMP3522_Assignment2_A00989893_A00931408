@@ -67,26 +67,4 @@ class EasterFactory(ItemFactory):
         return CremeEggs(**kwargs)
 
 
-class EventEnum(enum.Enum):
-    CHRISTMAS = 0,
-    HALLOWEEN = 1,
-    EASTER = 2
 
-
-class FactoryGrabber:
-    """
-    Mapper
-    """
-    # Maps world types to their respective factories
-    item_factory_mapper = {
-        EventEnum.CHRISTMAS: ChristmasFactory,
-        EventEnum.HALLOWEEN: HalloweenFactory,
-        EventEnum.EASTER: EasterFactory
-    }
-    def get_factory(self, event: EventEnum) -> ItemFactory:
-        """
-        Retrieves the associated factory for the specified EventEnum
-        :param event: EventEnum
-        :return: a ItemFactory if found, None otherwise
-        """
-        return self.item_factory_mapper[event]()
