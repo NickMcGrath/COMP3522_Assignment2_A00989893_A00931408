@@ -26,7 +26,8 @@ class Order:
         self.factory = factory
 
     def __str__(self):
-        return str(vars(self))
+        return f'Order {self.order_number}, Item {self.item}, Product ID ' \
+               f'{self.product_id}, Name "{self.name}", Quantity {self.quantity}'
 
 
 class OrderProcessor:
