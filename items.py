@@ -54,9 +54,9 @@ class SantasWorkShop(Toy):
         :param rooms_amt: int
         :param kwarg: dict keyword arguments to create a Toy
         """
-        if kwarg['has_batteries'] != True:
+        if kwarg['has_batteries'] != False:
                                   #expected, value received (for the raise)
-            raise InvalidDataError(True, kwarg['has_batteries'])
+            raise InvalidDataError(False, kwarg['has_batteries'])
         #kwarg['has_batteries'] = False  # old value is kwarg and is good
         self.dimensions = dimensions
         self.num_rooms = num_rooms
@@ -70,7 +70,7 @@ class RCSpider(Toy):
 
     def __init__(self, speed: int, jump_height: int, has_glow: bool,
                  spider_type: str, **kwargs):
-        if has_glow != True:
+        if kwargs['has_batteries'] != True:
             raise InvalidDataError(True, has_glow)
         self.speed = speed
         self.jump_height = jump_height

@@ -84,7 +84,8 @@ class Store:
                 print('Invalid parameters!' + str(e),
                       file=sys.stderr)
                 print('at: ' + str(an_order), file=sys.stderr)
-
+            except InvalidDataError as e:
+                print(f'Invalid data error, received {e.value} expected {e.expected}')
 
 def main():
     store = Store()

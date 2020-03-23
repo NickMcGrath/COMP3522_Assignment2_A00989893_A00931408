@@ -57,13 +57,18 @@ class OrderProcessor:
                         row['dimensions'] = row['dimensions'].split(',')
                     if 'num_rooms' in row:
                         row['num_rooms'] = int(row['num_rooms'])
+                    if 'has_glow' in row:
+                        row['has_glow'] = True if row['has_glow'] == 'Y' \
+                            else False
                     row['min_age'] = int(row['min_age'])
                 elif item == 'candy':
                     row['has_nuts'] = True if row['has_nuts'] == 'Y' else False
                     row['has_lactose'] = True if row['has_lactose'] == 'Y' \
                         else False
                 elif item == 'stuffedanimal':
-                    pass
+                    if 'has_glow' in row:
+                        row['has_glow'] = True if row['has_glow'] == 'Y' \
+                            else False
                 row['factory'] = self.get_factory(row['holiday'])
             except KeyError as e:
                 print('Invalid parameters!, missing: ' + str(e),
