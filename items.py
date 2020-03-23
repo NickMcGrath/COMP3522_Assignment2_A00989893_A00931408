@@ -1,6 +1,13 @@
 import abc
 
 
+class InvalidDataError(Exception):
+    def __init__(self, value, expected):
+        super().__init__()
+        self.value = value
+        self.expected = expected
+
+
 # todo check if init should have @abc.method about it
 # todo consider making item super class because name, desc, and product_id
 # appear in all superclasses
@@ -47,7 +54,10 @@ class SantasWorkShop(Toy):
         :param rooms_amt: int
         :param kwarg: dict keyword arguments to create a Toy
         """
-        kwarg['has_batteries'] = False
+        if kwarg['has_batteries'] != True:
+                                  #expected, value received (for the raise)
+            raise InvalidDataError(True, kwarg['has_batteries'])
+        #kwarg['has_batteries'] = False  # old value is kwarg and is good
         self.dimensions = dimensions
         self.num_rooms = num_rooms
         super().__init__(**kwarg)
@@ -60,11 +70,13 @@ class RCSpider(Toy):
 
     def __init__(self, speed: int, jump_height: int, has_glow: bool,
                  spider_type: str, **kwargs):
-        super().__init__(**kwargs)
+        if has_glow != True:
+            raise InvalidDataError(True, has_glow)
         self.speed = speed
         self.jump_height = jump_height
-        self.has_glow = True
+        self.has_glow = has_glow
         self.type = spider_type
+        super().__init__(**kwargs)
 
 
 class RobotBunny(Toy):
