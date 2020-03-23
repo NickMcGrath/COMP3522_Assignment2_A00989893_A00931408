@@ -12,20 +12,23 @@ class Toy(abc.ABC):
     """
 
     def __init__(self, name: str, description: str, product_id: str,
-                 min_age: int, is_battery_operated: bool):
+                 min_age: int, has_batteries: bool):
         """
         Initialize a toy with the parameter properties.
         :param name: str
         :param description: str
         :param product_id: str
         :param min_age: int
-        :param is_battery_operated: bool
+        :param has_batteries: bool
         """
         self.name = name
         self.description = description
         self.product_id = product_id
         self.min_age = min_age
-        self.is_battery_operated = is_battery_operated
+        self.has_batteries = has_batteries
+
+    def __eq__(self, other):
+        return self.__dict__ == other.__dict__
 
 
 class SantasWorkShop(Toy):
@@ -34,7 +37,7 @@ class SantasWorkShop(Toy):
     dimensions and number of rooms.
     """
 
-    def __init__(self, width: float, height: float, rooms_amt: int, **kwarg:
+    def __init__(self, dimensions: list, num_rooms: int, **kwarg:
     dict):
         """
         Initialize a work shop with the dimensions, amount of rooms, 
@@ -44,10 +47,9 @@ class SantasWorkShop(Toy):
         :param rooms_amt: int
         :param kwarg: dict keyword arguments to create a Toy
         """
-        kwarg['is_battery_operated'] = False
-        self.width = width
-        self.height = height
-        self.room_amt = rooms_amt
+        kwarg['has_batteries'] = False
+        self.dimensions = dimensions
+        self.num_rooms = num_rooms
         super().__init__(**kwarg)
 
 
@@ -55,22 +57,24 @@ class RCSpider(Toy):
     """
     The remote controlled spider is the toy to get during Halloween.
     """
-    def __init__(self, speed: int, jump_height: int, glows_in_dark: bool,
-                 type, **kwargs):
+
+    def __init__(self, speed: int, jump_height: int, has_glow: bool,
+                 spider_type: str, **kwargs):
         super().__init__(**kwargs)
         self.speed = speed
         self.jump_height = jump_height
-        self.glows_in_dark = True
-        self.type = 'Tarantula', 'WolfSpider'
+        self.has_glow = True
+        self.type = spider_type
 
 
 class RobotBunny(Toy):
     """
 
     """
-    def __init__(self, no_of_sounds: int, colour: list, **kwargs):
+
+    def __init__(self, num_sound: int, colour: list, **kwargs):
         super().__init__(**kwargs)
-        self.no_of_sounds = no_of_sounds
+        self.num_sound = num_sound
         self.colour = ['Pink', 'Yellow', 'Blue']
 
 
@@ -80,7 +84,8 @@ class StuffedAnimal(abc.ABC):
     animal has in common.
     """
 
-    def __init__(self, name: str, desc: str, product_id: str, stuffing: str,
+    def __init__(self, name: str, description: str, product_id: str,
+                 stuffing: str,
                  size: str, fabric: str):
         """
         Initialize a stuffed animal with the parameter properties.
@@ -92,11 +97,14 @@ class StuffedAnimal(abc.ABC):
         :param fabric: str Linen, Cotton, or Acrylic
         """
         self.name = name
-        self.desc = desc
+        self.description = description
         self.product_id = product_id
         self.stuffing = stuffing
         self.size = size
         self.fabric = fabric
+
+    def __eq__(self, other):
+        return self.__dict__ == other.__dict__
 
 
 class DancingSkeleton(StuffedAnimal):
@@ -104,12 +112,12 @@ class DancingSkeleton(StuffedAnimal):
 
     """
 
-    def __init__(self, glows_in_dark: bool, **kwargs):
-        super().__init__(**kwargs) #todo note if you pass the kwargs here
+    def __init__(self, has_glow: bool, **kwargs):
+        super().__init__(**kwargs)  # todo note if you pass the kwargs here
         # the super will not get the values changed below
         kwargs['fabric'] = 'Acrylic'
         kwargs['stuffing'] = 'Polyester Fiberfill'
-        self.glows_in_dark = True
+        self.has_glow = True
 
 
 class Reindeer(StuffedAnimal):
@@ -118,12 +126,12 @@ class Reindeer(StuffedAnimal):
     glows in the dark.
     """
 
-    def __init__(self, **kwargs: dict):
+    def __init__(self, has_glow: bool, **kwargs: dict):
         """
         Initialize a reindeer with
         :param kwargs: keyword arguments to create a StuffedAnimal
         """
-        self.glows_in_dark = True
+        self.has_glow = True
         kwargs['fabric'] = 'cotton'
         kwargs['stuffing'] = 'wool'
         super().__init__(**kwargs)
@@ -141,7 +149,6 @@ class EasterBunny(StuffedAnimal):
         self.colour = ['Pink', 'Yellow', 'Blue']
 
 
-
 # todo add other scuffed animals (get it?)...no
 class Candy(abc.ABC):
     """
@@ -149,21 +156,26 @@ class Candy(abc.ABC):
     common.
     """
 
-    def __init__(self, name: str, desc: str, product_id: str, has_nuts: bool,
-                 is_lactose_free: bool):
+    def __init__(self, name: str, description: str, product_id: str,
+                 has_nuts: bool,
+                 has_lactose: bool):
         """
         Initialize a candy with the parameter properties.
         :param name: str
         :param desc: str
         :param product_id: str
         :param has_nuts: bool
-        :param is_lactose_free: bool
+        :param has_lactose: bool
         """
         self.name = name
-        self.desc = desc
+        self.description = description
         self.product_id = product_id
         self.has_nuts = has_nuts
-        self.is_lactose_free = is_lactose_free
+        self.has_lactose = has_lactose
+
+    def __eq__(self, other):
+        return self.__dict__ == other.__dict__
+
 
 class PumpkinCaramelToffee(Candy):
     """
@@ -172,10 +184,10 @@ class PumpkinCaramelToffee(Candy):
     trudging through a pumpkin patch. Do it for the 'gram!
     """
 
-    def __init__(self, type, **kwargs):
+    def __init__(self, variety: str, **kwargs):
         super().__init__(**kwargs)
-        self.type = 'SeaSalt', 'Regular'
-        kwargs['is_lactose_free'] = False
+        self.type = variety
+        kwargs['has_lactose'] = False
         kwargs['has_nuts'] = True
 
 
@@ -184,14 +196,14 @@ class CandyCanes(Candy):
     A candy that is in the shape of a cane and hung from a tree.
     """
 
-    def __init__(self, type: str, **kwargs: dict):
+    def __init__(self, colour: str, **kwargs: dict):
         """
         Initialize a candy cane with type and candy parameters.
         :param type: str red or green
         :param kwargs: dict keyword arguments to create a Candy
         """
-        self.type = type
-        kwargs['is_lactose_free'] = True
+        self.colour = colour
+        kwargs['has_lactose'] = True
         kwargs['has_nuts'] = False
         super().__init__(**kwargs)
 
@@ -205,7 +217,5 @@ class CremeEggs(Candy):
     def __init__(self, pack_size: int, **kwargs):
         super().__init__(**kwargs)
         self.pack_size = pack_size
-        kwargs['is_lactose_free'] = False
+        kwargs['has_lactose'] = False
         kwargs['has_nuts'] = True
-
-

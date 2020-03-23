@@ -3,6 +3,7 @@ The storefront module is responsible for receiving and maintaining its
 inventory, getting items from a factory class if the store doesn't have
 enough stock, and generating the daily transaction report.
 """
+from order_processor import *
 
 
 class Store:
@@ -16,10 +17,11 @@ class Store:
         Store is initialized with empty inventory.
         :param item_list: a sequence of Order objects.
         """
-        if not item_list:
-            self.item_list = []
+        if item_list:
+            self.item_dic = item_list
         else:
-            self.item_list = item_list
+            self.item_dic = {}  # product_id, [items?]
+        self.orders = []
 
     def user_menu(self):
         """
@@ -53,9 +55,44 @@ class Store:
                 print("Invalid option.")
         print("Come again!")
 
+    def process_orders(self, file_name):
+        # for storefront class
+        op = OrderProcessor()  # this class could just be static or have
+        # static process method, no reason to instantiate
+        for an_order in op.process_data('orders.xlsx'):
+            try:
+                self.orders.append(an_order)
+                if an_order.item.lower() == 'candy':
+                    item = an_order.factory.create_candy(
+                        **an_order.item_details)
+                elif an_order.item.lower() == 'stuffedanimal':
+                    item = an_order.factory.create_stuffed_animal(
+                        **an_order.item_details)
+                elif an_order.item.lower() == 'toy':
+                    item = an_order.factory.create_toy(**an_order.item_details)
+
+                product_id = an_order.product_id
+                if product_id in self.item_dic:
+                    if self.item_dic[product_id] >= an_order.quantity:
+                        self.item_dic[product_id] -= an_order.quantity
+                    else:
+                        self.item_dic[product_id] += 100
+                        self.item_dic[product_id] -= an_order.quantity
+                else:
+                    self.item_dic[product_id] = 100
+            except TypeError as e:
+                print('Invalid parameters!' + str(e),
+                      file=sys.stderr)
+                print('at: ' + str(an_order), file=sys.stderr)
+
 
 def main():
     store = Store()
+    store.process_orders('orders.xlsx')
+    for an_order in store.orders:
+        print(an_order)
+    # for v in store.item_dic.values():
+    #     print(v)
     store.user_menu()
 
 
