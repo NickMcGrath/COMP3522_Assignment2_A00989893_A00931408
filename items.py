@@ -1,17 +1,14 @@
 import abc
 
 
-class InvalidDataError(Exception):
-    def __init__(self, value, expected):
-        super().__init__()
-        self.value = value
-        self.expected = expected
 
 
 # todo check if init should have @abc.method about it
 # todo consider making item super class because name, desc, and product_id
 # appear in all superclasses
 # todo kwargs may not actually be :dict because you can use tuples 🤔
+
+
 class Toy(abc.ABC):
     """
     Abstract base class that represents properties that each toy has in
@@ -54,9 +51,9 @@ class SantasWorkShop(Toy):
         :param rooms_amt: int
         :param kwarg: dict keyword arguments to create a Toy
         """
-        if kwarg['has_batteries'] != False:
+        # if kwarg['has_batteries'] != False:
                                   #expected, value received (for the raise)
-            raise InvalidDataError(False, kwarg['has_batteries'])
+            # raise InvalidDataError(False, kwarg['has_batteries'])
         #kwarg['has_batteries'] = False  # old value is kwarg and is good
         self.dimensions = dimensions
         self.num_rooms = num_rooms
@@ -70,8 +67,8 @@ class RCSpider(Toy):
 
     def __init__(self, speed: int, jump_height: int, has_glow: bool,
                  spider_type: str, **kwargs):
-        if kwargs['has_batteries'] != True:
-            raise InvalidDataError(True, has_glow)
+        # if kwargs['has_batteries'] != True:
+            # raise InvalidDataError(True, has_glow)
         self.speed = speed
         self.jump_height = jump_height
         self.has_glow = has_glow

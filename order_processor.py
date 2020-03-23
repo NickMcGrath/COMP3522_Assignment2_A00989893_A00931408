@@ -10,24 +10,52 @@ class EventEnum(enum.Enum):
     EASTER = 2
 
 
+class InvalidDataError(Exception):
+    def __init__(self, value, expected):
+        super().__init__()
+        self.value = value
+        self.expected = expected
+
+
 class Order:
     def __init__(self, order_number: str, product_id: str, item: str,
                  name: str, factory: ItemFactory, quantity: int,
                  **item_details: dict) -> None:
-        self.order_number = order_number
-        self.product_id = product_id
-        self.item = item
-        self.name = name
-        self.quantity = quantity
-        item_details['name'] = name
-        item_details['product_id'] = product_id
-        del item_details['holiday']
-        self.item_details = item_details
-        self.factory = factory
+        try:
+            self.validate_data(order_number=order_number,
+                               product_id=product_id, item=item,
+                               name=name, quantity=quantity,
+                               **item_details)
+            self.order_number = order_number
+            self.product_id = product_id
+            self.item = item
+            self.name = name
+            self.quantity = quantity
+            item_details['name'] = name
+            item_details['product_id'] = product_id
+            del item_details['holiday']
+            self.item_details = item_details
+            self.factory = factory
+            self.is_valid = True
+        except InvalidDataError as e:
+            self.is_valid = False
+            self.error_msg = f'Order error expected: {e.expected} got' \
+                             f' {e.value}'
+
+    def validate_data(self, **kwargs) -> bool:
+        if kwargs['item'] == 'Toy':
+            if kwargs['holiday'] == 'Christmas':
+                if kwargs['has_batteries'] != False:
+                    raise InvalidDataError(kwargs['has_batteries'], False)
+
+        return True
 
     def __str__(self):
-        return f'Order {self.order_number}, Item {self.item}, Product ID ' \
-               f'{self.product_id}, Name "{self.name}", Quantity {self.quantity}'
+        if self.is_valid:
+            return f'Order {self.order_number}, Item {self.item}, Product ID ' \
+                   f'{self.product_id}, Name "{self.name}", Quantity {self.quantity}'
+        else:
+            return self.error_msg
 
 
 class OrderProcessor:
