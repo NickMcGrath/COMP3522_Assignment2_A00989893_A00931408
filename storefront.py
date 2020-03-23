@@ -61,39 +61,45 @@ class Store:
         # static process method, no reason to instantiate
         for an_order in op.process_data('orders.xlsx'):
             try:
-                self.orders.append(an_order)
-                if an_order.item.lower() == 'candy':
-                    item = an_order.factory.create_candy(
-                        **an_order.item_details)
-                elif an_order.item.lower() == 'stuffedanimal':
-                    item = an_order.factory.create_stuffed_animal(
-                        **an_order.item_details)
-                elif an_order.item.lower() == 'toy':
-                    item = an_order.factory.create_toy(**an_order.item_details)
-
                 product_id = an_order.product_id
-                if product_id in self.item_dic:
-                    if self.item_dic[product_id] >= an_order.quantity:
-                        self.item_dic[product_id] -= an_order.quantity
-                    else:
-                        self.item_dic[product_id] += 100
-                        self.item_dic[product_id] -= an_order.quantity
-                else:
-                    self.item_dic[product_id] = 100
-            except TypeError as e:
-                print('Invalid parameters!' + str(e),
-                      file=sys.stderr)
-                print('at: ' + str(an_order), file=sys.stderr)
+                if product_id not in self.item_dic:
+                    self.item_dic[product_id] = []
+
+                if len(self.item_dic[product_id]) < an_order.quantity:
+                    if an_order.item.lower() == 'candy':
+                        for i in range(0, 100):
+                            self.item_dic[
+                                product_id].append(
+                                an_order.factory.create_candy(
+                                    **an_order.item_details))
+                    elif an_order.item.lower() == 'stuffedanimal':
+                        for i in range(0, 100):
+                            self.item_dic[
+                                product_id].append(
+                                an_order.factory.create_stuffed_animal(
+                                    **an_order.item_details))
+                    elif an_order.item.lower() == 'toy':
+                        for i in range(0, 100):
+                            self.item_dic[
+                                product_id].append(
+                                an_order.factory.create_toy(
+                                    **an_order.item_details))
+
+                self.item_dic[product_id] = self.item_dic[product_id][
+                                            :-an_order.quantity]
+                self.orders.append(an_order)
             except InvalidDataError as e:
-                print(f'Invalid data error, received {e.value} expected {e.expected}')
+                print(
+                    f'Invalid data error, received {e.value} expected {e.expected}')
+
 
 def main():
     store = Store()
     store.process_orders('orders.xlsx')
     for an_order in store.orders:
         print(an_order)
-    # for v in store.item_dic.values():
-    #     print(v)
+    for k, v in store.item_dic.items():
+        print(k, len(v))
     store.user_menu()
 
 
