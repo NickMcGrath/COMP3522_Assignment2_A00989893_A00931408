@@ -96,7 +96,7 @@ class Store:
 def main():
     store = Store()
     store.user_menu()
-    #store.process_orders('orders.xlsx')
+    # store.process_orders('orders.xlsx')
     for an_order in store.orders:
         print(an_order)
     for k, v in store.item_dic.items():

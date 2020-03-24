@@ -43,7 +43,7 @@ class Order:
                              f' {e.value}'
 
     @staticmethod
-    def validate_data(self, **kwargs) -> bool:
+    def validate_data(**kwargs) -> bool:
         if kwargs['item'] == 'Toy':
             if kwargs['holiday'] == 'Christmas':
                 if kwargs['has_batteries']:
