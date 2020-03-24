@@ -43,12 +43,23 @@ class Order:
                              f' {e.value}'
 
     def validate_data(self, **kwargs) -> bool:
-        if kwargs['item'] == 'Toy':
-            if kwargs['holiday'] == 'Christmas':
-                if kwargs['has_batteries'] != False:
-                    raise InvalidDataError(kwargs['has_batteries'], False)
+        # if kwargs['item'] == 'Toy':
+        #     if kwargs['holiday'] == 'Christmas':
+        #         if kwargs['has_batteries'] != False:
+        #             #raise InvalidDataError(kwargs['has_batteries'], False)
+        #             return False
+        # return True
+        try:
+            if kwargs['item'] == 'Toy':
+                if kwargs['holiday'] == 'Christmas':
+                    if kwargs['has_batteries']:
+                        raise InvalidDataError
+        except InvalidDataError as e:
+            print("This is not a battery operated toy.")
+            return False
+        else:
+            return True
 
-        return True
 
     def __str__(self):
         if self.is_valid:

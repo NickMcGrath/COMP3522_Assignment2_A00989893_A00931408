@@ -43,7 +43,7 @@ class Store:
                 continue
 
             if user_input == 1:
-                pass
+                self.process_orders('orders.xlsx')
 
             elif user_input == 2:
                 pass
@@ -95,12 +95,13 @@ class Store:
 
 def main():
     store = Store()
-    store.process_orders('orders.xlsx')
+    store.user_menu()
+    #store.process_orders('orders.xlsx')
     for an_order in store.orders:
         print(an_order)
     for k, v in store.item_dic.items():
         print(k, len(v))
-    store.user_menu()
+
 
 
 if __name__ == '__main__':
