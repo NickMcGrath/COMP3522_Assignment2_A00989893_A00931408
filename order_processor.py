@@ -42,7 +42,8 @@ class Order:
             self.error_msg = f'Order error expected: {e.expected} got' \
                              f' {e.value}'
 
-    def validate_data(self, **kwargs) -> bool:
+    @staticmethod
+    def validate_data(**kwargs) -> bool:
         # if kwargs['item'] == 'Toy':
         #     if kwargs['holiday'] == 'Christmas':
         #         if kwargs['has_batteries'] != False:
