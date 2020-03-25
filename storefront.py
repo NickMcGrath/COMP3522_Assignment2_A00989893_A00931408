@@ -80,34 +80,35 @@ class Store:
         """
         op = OrderProcessor()
         for an_order in op.process_data(file_name):
-            if an_order.is_valid:
-                product_id = an_order.product_id
-                if product_id not in self.item_dic:
-                    self.item_dic[product_id] = []
 
-                # if the order contains more than current inventory place
-                # 100 more in inventory.
-                if len(self.item_dic[product_id]) < an_order.quantity:
-                    if an_order.item.lower() == 'candy':
-                        for i in range(0, 100):
-                            self.item_dic[product_id].append(
-                                an_order.factory.create_candy(
-                                    **an_order.item_details))
-                    elif an_order.item.lower() == 'stuffedanimal':
-                        for i in range(0, 100):
-                            self.item_dic[product_id].append(
-                                an_order.factory.create_stuffed_animal(
-                                    **an_order.item_details))
-                    elif an_order.item.lower() == 'toy':
-                        for i in range(0, 100):
-                            self.item_dic[product_id].append(
-                                an_order.factory.create_toy(
-                                    **an_order.item_details))
+            product_id = an_order.product_id
+            if product_id not in self.item_dic:
+                self.item_dic[product_id] = []
 
-                # subtract the order amount from inventory
-                self.item_dic[product_id] = self.item_dic[product_id][
-                                            :-an_order.quantity]
-                self.orders.append(an_order)
+            # if the order contains more than current inventory place
+            # 100 more in inventory.
+            if an_order.is_valid and \
+                    len(self.item_dic[product_id]) < an_order.quantity:
+                if an_order.item.lower() == 'candy':
+                    for i in range(0, 100):
+                        self.item_dic[product_id].append(
+                            an_order.factory.create_candy(
+                                **an_order.item_details))
+                elif an_order.item.lower() == 'stuffedanimal':
+                    for i in range(0, 100):
+                        self.item_dic[product_id].append(
+                            an_order.factory.create_stuffed_animal(
+                                **an_order.item_details))
+                elif an_order.item.lower() == 'toy':
+                    for i in range(0, 100):
+                        self.item_dic[product_id].append(
+                            an_order.factory.create_toy(
+                                **an_order.item_details))
+
+            # subtract the order amount from inventory
+            self.item_dic[product_id] = self.item_dic[product_id][
+                                        :-an_order.quantity]
+            self.orders.append(an_order)
 
     def end_report(self):
         """

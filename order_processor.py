@@ -11,8 +11,9 @@ class EventEnum(enum.Enum):
 
 
 class InvalidDataError(Exception):
-    def __init__(self, value, expected):
+    def __init__(self, param, value, expected):
         super().__init__()
+        self.param = param
         self.value = value
         self.expected = expected
 
@@ -39,84 +40,117 @@ class Order:
             self.is_valid = True
         except InvalidDataError as e:
             self.is_valid = False
-            self.error_msg = f'Order error expected: {e.expected} got' \
-                             f' {e.value}'
+            self.error_msg = f'Order {order_number}, Could not process ' \
+                             f'order data was corrupted, ' \
+                             f'InvalidDataError - ' \
+                             f'{e.param} can only be {e.expected} ' \
+                             f'received' \
+                             f' "{e.value}"'
 
     @staticmethod
-    def validate_data(**kwargs) -> bool:
+    def validate_data(**kwargs) -> None:
         if kwargs['item'] == 'Toy':
             if kwargs['holiday'] == 'Christmas':
                 if kwargs['has_batteries']:
-                    raise InvalidDataError(kwargs['has_batteries'], False)
+                    raise InvalidDataError('has_batteries', kwargs[
+                        'has_batteries'], '"N"')
             elif kwargs['holiday'] == 'Halloween':
                 if not kwargs['has_batteries']:
-                    raise InvalidDataError(kwargs['has_batteries'], False)
-                elif kwargs['spider_type'] is not 'Tarantula' or 'Wolf Spider':
-                    raise InvalidDataError(kwargs['spider_type'], False)
+                    raise InvalidDataError('has_batteries', kwargs[
+                        'has_batteries'], '"N"')
+                elif kwargs['spider_type'] not in ['Tarantula', 'Wolf Spider']:
+                    raise InvalidDataError('spider_type',
+                                           kwargs['spider_type'],
+                                           '"Tarantula" or "Wolf Spider"')
             elif kwargs['holiday'] == 'Easter':
                 if not kwargs['has_batteries']:
-                    raise InvalidDataError(kwargs['has_batteries'], False)
-                elif kwargs['colour'] is not 'Orange' or 'Pink' or 'Blue':
-                    raise InvalidDataError(kwargs['colour'], False)
+                    raise InvalidDataError('has_batteries',
+                                           kwargs['has_batteries'], '"N"')
+                elif kwargs['colour'] not in ['Orange', 'Pink', 'Blue']:
+                    raise InvalidDataError('colour', kwargs['colour'],
+                                           '"Orange", "Pink", "Blue"')
         elif kwargs['item'] == 'Stuffed Animals':
             if kwargs['holiday'] == 'Halloween':
                 if not kwargs['has_glow']:
-                    raise InvalidDataError(kwargs['has_glow'], False)
+                    raise InvalidDataError('has_glow', kwargs['has_glow'],
+                                           '"Y"')
                 elif not kwargs['fabric'] == 'Acrylic':
-                    raise InvalidDataError(kwargs['fabric'], False)
-                elif not kwargs['stuffing'] == 'Polyester Fiberfill' or \
-                        'Polyester Fibrefill':
-                    raise InvalidDataError(kwargs['stuffing'], False)
-                elif kwargs['size'] is not 'S' or 'M' or 'L':
-                    raise InvalidDataError(kwargs['size'], False)
+                    raise InvalidDataError('fabric', kwargs['fabric'],
+                                           '"Acrylic"')
+                elif kwargs['stuffing'] not in 'Polyester Fiberfill':
+                    raise InvalidDataError('stuffing', kwargs['stuffing'],
+                                           '"Polyester Fiberfill"')
+                elif kwargs['size'] not in ['S', 'M', 'L']:
+                    raise InvalidDataError('size', kwargs['size'], '"S" or '
+                                                                   '"M" or '
+                                                                   '"L"')
             elif kwargs['holiday'] == 'Christmas':
                 if not kwargs['has_glow']:
-                    raise InvalidDataError(kwargs['has_glow'], False)
+                    raise InvalidDataError('has_glow', kwargs['has_glow'],
+                                           '"Y"')
                 elif not kwargs['fabric'] == 'Cotton':
-                    raise InvalidDataError(kwargs['fabric'], False)
+                    raise InvalidDataError('fabric', kwargs['fabric'],
+                                           '"Cotton"')
                 elif not kwargs['stuffing'] == 'Wool':
-                    raise InvalidDataError(kwargs['stuffing'], False)
-                elif kwargs['size'] is not 'S' or 'M' or 'L':
-                    raise InvalidDataError(kwargs['size'], False)
+                    raise InvalidDataError('stuffing', kwargs['stuffing'],
+                                           '"Wool"')
+                elif kwargs['size'] not in ['S', 'M', 'L']:
+                    raise InvalidDataError('size', kwargs['size'], '"S" or '
+                                                                   '"M" or '
+                                                                   '"L"')
             elif kwargs['holiday'] == 'Easter':
                 if not kwargs['fabric'] == 'Linen':
-                    raise InvalidDataError(kwargs['fabric'], False)
-                elif not kwargs['stuffing'] == 'Polyester Fiberfill' or \
-                        'Polyester Fibrefill':
-                    raise InvalidDataError(kwargs['stuffing'], False)
-                elif kwargs['colour'] is not 'White' or 'Grey' or 'Pink' \
-                        or 'Blue':
-                    raise InvalidDataError(kwargs['colour'], False)
-                elif kwargs['size'] is not 'S' or 'M' or 'L':
-                    raise InvalidDataError(kwargs['size'], False)
+                    raise InvalidDataError('fabric', kwargs['fabric'],
+                                           '"Linen"')
+                elif not kwargs['stuffing'] == 'Polyester Fiberfill':
+                    raise InvalidDataError('stuffing', kwargs['stuffing'],
+                                           '"Polyester Fiberfill"')
+                elif kwargs['colour'] not in ['White', 'Grey', 'Pink', 'Blue']:
+                    raise InvalidDataError('colour', kwargs['colour'],
+                                           '"White" or "Grey" or "Pink" or '
+                                           'Blue')
+                elif kwargs['size'] not in ['S', 'M', 'L']:
+                    raise InvalidDataError('size', kwargs['size'], '"S" or '
+                                                                   '"M" or '
+                                                                   '"L"')
         elif kwargs['item'] == 'Candy':
             if kwargs['holiday'] == 'Halloween':
                 if not kwargs['has_lactose']:
-                    raise InvalidDataError(kwargs['has_lactose'], False)
+                    raise InvalidDataError('has_lactose', kwargs[
+                        'has_lactose'], '"T"')
                 elif not kwargs['has_nuts']:
-                    raise InvalidDataError(kwargs['has_nuts'], False)
-                elif kwargs['variety'] is not 'Sea Salt' or 'Regular':
-                    raise InvalidDataError(kwargs['variety'], False)
+                    raise InvalidDataError('has_nuts', kwargs['has_nuts'],
+                                           '"T"')
+                elif kwargs['variety'] not in ['Sea Salt', 'Regular']:
+                    raise InvalidDataError('variety', kwargs['variety'],
+                                           '"Sea Salt" or "Regular"')
             elif kwargs['holiday'] == 'Christmas':
                 if kwargs['has_lactose']:
-                    raise InvalidDataError(kwargs['has_lactose'], False)
+                    raise InvalidDataError('has_lactose', kwargs[
+                        'has_lactose'], '"N"')
                 elif kwargs['has_nuts']:
-                    raise InvalidDataError(kwargs['has_nuts'], False)
-                elif kwargs['colour'] is not 'Green' or 'Red':
-                    raise InvalidDataError(kwargs['colour'], False)
+                    raise InvalidDataError('has_nuts', kwargs['has_nuts'],
+                                           '"N"')
+                elif kwargs['colour'] not in ['Green', 'Red']:
+                    raise InvalidDataError('colour', kwargs['colour'],
+                                           '"Green" or "Red"')
             elif kwargs['holiday'] == 'Easter':
                 if not kwargs['has_lactose']:
-                    raise InvalidDataError(kwargs['has_lactose'], False)
+                    raise InvalidDataError('has_lactose', kwargs[
+                        'has_lactose'], '"Y"')
                 elif not kwargs['has_nuts']:
-                    raise InvalidDataError(kwargs['has_nuts'], False)
+                    raise InvalidDataError('has_nuts', kwargs['has_nuts'],
+                                           '"Y"')
                 elif not kwargs['pack_size']:
-                    raise InvalidDataError(kwargs['pack_size'], False)
+                    raise InvalidDataError('pack_size', kwargs['pack_size'],
+                                           "'Y'")
         return True
 
     def __str__(self):
         if self.is_valid:
             return f'Order {self.order_number}, Item {self.item}, Product ID ' \
-                   f'{self.product_id}, Name "{self.name}", Quantity {self.quantity}'
+                   f'{self.product_id}, Name "{self.name}", Quantity ' \
+                   f'{self.quantity}'
         else:
             return self.error_msg
 

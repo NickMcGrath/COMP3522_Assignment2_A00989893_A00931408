@@ -1,7 +1,0 @@
-Order 1, Item Toy, Product ID C1230T, Name "Santas Workshop - Essentials Edition", Quantity 10
-Order 2, Item StuffedAnimal, Product ID E2446E, Name "Easter Bunny with Top Hat", Quantity 2
-Order 3, Item Toy, Product ID C1256T, Name "Santas Workshop - Deluxe Edition", Quantity 5
-Order 6, Item Candy, Product ID E9451C, Name "Crème Eggs - Large", Quantity 1
-Order 7, Item StuffedAnimal, Product ID H4443S, Name "Skello the Tap Dancer", Quantity 1
-Order 8, Item StuffedAnimal, Product ID C8311S, Name "Rudolph the Red Nosed Reindeer", Quantity 2
-Order 10, Item StuffedAnimal, Product ID E0012S, Name "Easter Bunny with Beach Attire", Quantity 5
