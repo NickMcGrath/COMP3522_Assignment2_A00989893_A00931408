@@ -51,18 +51,12 @@ class Order:
             elif kwargs['holiday'] == 'Halloween':
                 if not kwargs['has_batteries']:
                     raise InvalidDataError(kwargs['has_batteries'], False)
-                elif not kwargs['speed']:
-                    raise InvalidDataError(kwargs['speed'], False)
-                elif not kwargs['jump_height']:
-                    raise InvalidDataError(kwargs['jump_height'], False)
-                elif kwargs['spider_type'] not in RCSpider.type:
+                elif kwargs['spider_type'] is not 'Tarantula' or 'Wolf Spider':
                     raise InvalidDataError(kwargs['spider_type'], False)
             elif kwargs['holiday'] == 'Easter':
                 if not kwargs['has_batteries']:
                     raise InvalidDataError(kwargs['has_batteries'], False)
-                elif not kwargs['num_sound']:
-                    raise InvalidDataError(kwargs['num_sound'], False)
-                elif kwargs['colour'] not in RobotBunny.colour:
+                elif kwargs['colour'] is not 'Orange' or 'Pink' or 'Blue':
                     raise InvalidDataError(kwargs['colour'], False)
         elif kwargs['item'] == 'Stuffed Animals':
             if kwargs['holiday'] == 'Halloween':
@@ -70,8 +64,11 @@ class Order:
                     raise InvalidDataError(kwargs['has_glow'], False)
                 elif not kwargs['fabric'] == 'Acrylic':
                     raise InvalidDataError(kwargs['fabric'], False)
-                elif not kwargs['stuffing'] == 'Polyester Fiberfill':
+                elif not kwargs['stuffing'] == 'Polyester Fiberfill' or \
+                        'Polyester Fibrefill':
                     raise InvalidDataError(kwargs['stuffing'], False)
+                elif kwargs['size'] is not 'S' or 'M' or 'L':
+                    raise InvalidDataError(kwargs['size'], False)
             elif kwargs['holiday'] == 'Christmas':
                 if not kwargs['has_glow']:
                     raise InvalidDataError(kwargs['has_glow'], False)
@@ -79,27 +76,33 @@ class Order:
                     raise InvalidDataError(kwargs['fabric'], False)
                 elif not kwargs['stuffing'] == 'Wool':
                     raise InvalidDataError(kwargs['stuffing'], False)
+                elif kwargs['size'] is not 'S' or 'M' or 'L':
+                    raise InvalidDataError(kwargs['size'], False)
             elif kwargs['holiday'] == 'Easter':
                 if not kwargs['fabric'] == 'Linen':
                     raise InvalidDataError(kwargs['fabric'], False)
-                elif not kwargs['stuffing'] == 'Polyester Fiberfill':
+                elif not kwargs['stuffing'] == 'Polyester Fiberfill' or \
+                        'Polyester Fibrefill':
                     raise InvalidDataError(kwargs['stuffing'], False)
-                elif kwargs['colour'] not in EasterBunny.colour:
+                elif kwargs['colour'] is not 'White' or 'Grey' or 'Pink' \
+                        or 'Blue':
                     raise InvalidDataError(kwargs['colour'], False)
+                elif kwargs['size'] is not 'S' or 'M' or 'L':
+                    raise InvalidDataError(kwargs['size'], False)
         elif kwargs['item'] == 'Candy':
             if kwargs['holiday'] == 'Halloween':
                 if not kwargs['has_lactose']:
                     raise InvalidDataError(kwargs['has_lactose'], False)
                 elif not kwargs['has_nuts']:
                     raise InvalidDataError(kwargs['has_nuts'], False)
-                elif kwargs['variety'] not in PumpkinCaramelToffee.type:
+                elif kwargs['variety'] is not 'Sea Salt' or 'Regular':
                     raise InvalidDataError(kwargs['variety'], False)
             elif kwargs['holiday'] == 'Christmas':
                 if kwargs['has_lactose']:
                     raise InvalidDataError(kwargs['has_lactose'], False)
                 elif kwargs['has_nuts']:
                     raise InvalidDataError(kwargs['has_nuts'], False)
-                elif kwargs['colour'] not in CandyCanes.colour:
+                elif kwargs['colour'] is not 'Green' or 'Red':
                     raise InvalidDataError(kwargs['colour'], False)
             elif kwargs['holiday'] == 'Easter':
                 if not kwargs['has_lactose']:
