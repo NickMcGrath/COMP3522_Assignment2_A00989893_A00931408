@@ -4,7 +4,6 @@ inventory, getting items from a factory class if the store doesn't have
 enough stock, and generating the daily transaction report.
 """
 from enum import Enum
-
 from order_processor import *
 from datetime import datetime
 
@@ -36,7 +35,7 @@ class Store:
         if item_list:
             self.item_dic = item_list
         else:
-            self.item_dic = {}  # product_id, [items?]
+            self.item_dic = {}
         self.orders = []
 
     def user_menu(self):
@@ -62,14 +61,13 @@ class Store:
                 self.process_orders('orders.xlsx')
 
             elif user_input == 2:
-                pass
+                self.check_inventory()
 
             elif user_input == 3:
-                pass
-
+                print("Come again!")
+                self.end_report()
             else:
                 print("Invalid option.")
-        print("Come again!")
 
     def process_orders(self, file_name: str) -> None:
         """
