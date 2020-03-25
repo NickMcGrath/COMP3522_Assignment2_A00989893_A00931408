@@ -1,12 +1,5 @@
 import abc
 
-
-# todo check if init should have @abc.method about it
-# todo consider making item super class because name, desc, and product_id
-# appear in all superclasses
-# todo kwargs may not actually be :dict because you can use tuples 🤔
-
-
 class Toy(abc.ABC):
     """
     Abstract base class that represents properties that each toy has in
@@ -39,8 +32,7 @@ class SantasWorkShop(Toy):
     dimensions and number of rooms.
     """
 
-    def __init__(self, dimensions: list, num_rooms: int, **kwarg:
-    dict):
+    def __init__(self, dimensions: list, num_rooms: int, **kwarg: dict):
         """
         Initialize a work shop with the dimensions, amount of rooms, 
         and properties of a Toy 
@@ -49,10 +41,6 @@ class SantasWorkShop(Toy):
         :param rooms_amt: int
         :param kwarg: dict keyword arguments to create a Toy
         """
-        # if kwarg['has_batteries'] != False:
-                                  #expected, value received (for the raise)
-            # raise InvalidDataError(False, kwarg['has_batteries'])
-        #kwarg['has_batteries'] = False  # old value is kwarg and is good
         self.dimensions = dimensions
         self.num_rooms = num_rooms
         super().__init__(**kwarg)
@@ -65,8 +53,6 @@ class RCSpider(Toy):
 
     def __init__(self, speed: int, jump_height: int, has_glow: bool,
                  spider_type: str, **kwargs):
-        # if kwargs['has_batteries'] != True:
-            # raise InvalidDataError(True, has_glow)
         self.speed = speed
         self.jump_height = jump_height
         self.has_glow = has_glow
@@ -76,7 +62,8 @@ class RCSpider(Toy):
 
 class RobotBunny(Toy):
     """
-
+    Domo arigato Mr. BunnyRoboto. Electrify your Easter with the
+    hip-hoppest new toy.
     """
 
     def __init__(self, num_sound: int, colour: list, **kwargs):
@@ -92,15 +79,14 @@ class StuffedAnimal(abc.ABC):
     """
 
     def __init__(self, name: str, description: str, product_id: str,
-                 stuffing: str,
-                 size: str, fabric: str):
+                 stuffing: str, size: str, fabric: str):
         """
         Initialize a stuffed animal with the parameter properties.
         :param name: str
         :param desc: str
         :param product_id: str
-        :param stuffing: str Polyester, Fiberfill, or Wool
-        :param size: str Small, Medium, or Large
+        :param stuffing: Polyester, Fiberfill, or Wool
+        :param size: Small, Medium, or Large
         :param fabric: str Linen, Cotton, or Acrylic
         """
         self.name = name
@@ -116,12 +102,13 @@ class StuffedAnimal(abc.ABC):
 
 class DancingSkeleton(StuffedAnimal):
     """
-
+    Close your eyes and listen to this skeleton tap dance into your dreams
+    at night, when you're in bed, all alone with no one around. Now glows
+    in the dark.
     """
 
     def __init__(self, has_glow: bool, **kwargs):
-        super().__init__(**kwargs)  # todo note if you pass the kwargs here
-        # the super will not get the values changed below
+        super().__init__(**kwargs)
         self.has_glow = has_glow
 
 
@@ -132,17 +119,14 @@ class Reindeer(StuffedAnimal):
     """
 
     def __init__(self, has_glow: bool, **kwargs: dict):
-        """
-        Initialize a reindeer with
-        :param kwargs: keyword arguments to create a StuffedAnimal
-        """
         self.has_glow = has_glow
         super().__init__(**kwargs)
 
 
 class EasterBunny(StuffedAnimal):
     """
-
+    Gone are the days where EasterBunnies could only be white. Celebrate
+    the diversity of EasterBunnies everywhere in White, Pink, Blue, and Grey.
     """
 
     def __init__(self, colour, **kwargs):
@@ -150,7 +134,6 @@ class EasterBunny(StuffedAnimal):
         self.colour = colour
 
 
-# todo add other scuffed animals (get it?)...no
 class Candy(abc.ABC):
     """
     Abstract base class that represents properties that each candy has in
@@ -158,8 +141,7 @@ class Candy(abc.ABC):
     """
 
     def __init__(self, name: str, description: str, product_id: str,
-                 has_nuts: bool,
-                 has_lactose: bool):
+                 has_nuts: bool, has_lactose: bool):
         """
         Initialize a candy with the parameter properties.
         :param name: str
@@ -196,11 +178,6 @@ class CandyCanes(Candy):
     """
 
     def __init__(self, colour: str, **kwargs: dict):
-        """
-        Initialize a candy cane with type and candy parameters.
-        :param type: str red or green
-        :param kwargs: dict keyword arguments to create a Candy
-        """
         self.colour = colour
         super().__init__(**kwargs)
 
