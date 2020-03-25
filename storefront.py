@@ -61,6 +61,7 @@ class Store:
                 self.process_orders('orders.xlsx')
 
             elif user_input == 2:
+                pass
                 self.check_inventory()
 
             elif user_input == 3:
@@ -79,7 +80,6 @@ class Store:
         """
         op = OrderProcessor()
         for an_order in op.process_data(file_name):
-
             product_id = an_order.product_id
             if product_id not in self.item_dic:
                 self.item_dic[product_id] = []
@@ -140,8 +140,8 @@ def main():
         print(an_order)
     for k, v in store.item_dic.items():
         print(k, len(v))
-    store.user_menu()
-    store.end_report()
+    #store.user_menu()
+    #store.end_report()
 
 
 if __name__ == '__main__':
