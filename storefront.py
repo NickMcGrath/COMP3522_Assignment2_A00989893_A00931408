@@ -13,12 +13,12 @@ class InventoryEnum(Enum):
     InventoryEnum is for classifying the amounts of items.
     """
     IN_STOCK = -1
-    LOW = 10,
-    VERY_LOW = 3,
+    LOW = 10
+    VERY_LOW = 3
     OUT_OF_STOCK = 0
 
     def __str__(self):
-        return str(self.value).title()
+        return str(self.name).title().replace('_', ' ')
 
 
 class Store:
@@ -80,33 +80,34 @@ class Store:
         """
         op = OrderProcessor()
         for an_order in op.process_data(file_name):
-            product_id = an_order.product_id
-            if product_id not in self.item_dic:
-                self.item_dic[product_id] = []
+            if an_order.is_valid:
+                product_id = an_order.product_id
+                if product_id not in self.item_dic:
+                    self.item_dic[product_id] = []
 
-            # if the order contains more than current inventory place
-            # 100 more in inventory.
-            if len(self.item_dic[product_id]) < an_order.quantity:
-                if an_order.item.lower() == 'candy':
-                    for i in range(0, 100):
-                        self.item_dic[product_id].append(
-                            an_order.factory.create_candy(
-                                **an_order.item_details))
-                elif an_order.item.lower() == 'stuffedanimal':
-                    for i in range(0, 100):
-                        self.item_dic[product_id].append(
-                            an_order.factory.create_stuffed_animal(
-                                **an_order.item_details))
-                elif an_order.item.lower() == 'toy':
-                    for i in range(0, 100):
-                        self.item_dic[product_id].append(
-                            an_order.factory.create_toy(
-                                **an_order.item_details))
+                # if the order contains more than current inventory place
+                # 100 more in inventory.
+                if len(self.item_dic[product_id]) < an_order.quantity:
+                    if an_order.item.lower() == 'candy':
+                        for i in range(0, 100):
+                            self.item_dic[product_id].append(
+                                an_order.factory.create_candy(
+                                    **an_order.item_details))
+                    elif an_order.item.lower() == 'stuffedanimal':
+                        for i in range(0, 100):
+                            self.item_dic[product_id].append(
+                                an_order.factory.create_stuffed_animal(
+                                    **an_order.item_details))
+                    elif an_order.item.lower() == 'toy':
+                        for i in range(0, 100):
+                            self.item_dic[product_id].append(
+                                an_order.factory.create_toy(
+                                    **an_order.item_details))
 
-            # subtract the order amount from inventory
-            self.item_dic[product_id] = self.item_dic[product_id][
-                                        :-an_order.quantity]
-            self.orders.append(an_order)
+                # subtract the order amount from inventory
+                self.item_dic[product_id] = self.item_dic[product_id][
+                                            :-an_order.quantity]
+                self.orders.append(an_order)
 
     def end_report(self):
         """
@@ -115,18 +116,18 @@ class Store:
         file_name = 'DTR_' + datetime.today().strftime('%d%m%y_%H%M') + '.txt'
         with open(file_name, 'w') as report:
             for an_order in self.orders:
-                report.write(str(an_order))
+                report.write(f'{str(an_order)}\n')
 
     def check_inventory(self):
         """
         Prints all of the inventory by product id and amount of stock.
         """
-        for k, v in self.item_dic:
-            if len(v) <= InventoryEnum.OUT_OF_STOCK:
+        for k, v in self.item_dic.items():
+            if len(v) <= InventoryEnum.OUT_OF_STOCK.value:
                 stock_str = str(InventoryEnum.OUT_OF_STOCK)
-            elif len(v) <= InventoryEnum.VERY_LOW:
+            elif len(v) <= InventoryEnum.VERY_LOW.value:
                 stock_str = str(InventoryEnum.VERY_LOW)
-            elif len(v) <= InventoryEnum.LOW:
+            elif len(v) <= InventoryEnum.LOW.value:
                 stock_str = str(InventoryEnum.LOW)
             else:
                 stock_str = str(InventoryEnum.IN_STOCK)
@@ -135,12 +136,12 @@ class Store:
 
 def main():
     store = Store()
-    store.process_orders('orders.xlsx')
-    for an_order in store.orders:
-        print(an_order)
-    for k, v in store.item_dic.items():
-        print(k, len(v))
-    #store.user_menu()
+    # store.process_orders('orders.xlsx')
+    # for an_order in store.orders:
+    #     print(an_order)
+    # for k, v in store.item_dic.items():
+    #     print(k, len(v))
+    store.user_menu()
     #store.end_report()
 
 

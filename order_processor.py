@@ -22,19 +22,19 @@ class Order:
                  name: str, factory: ItemFactory, quantity: int,
                  **item_details: dict) -> None:
         try:
+            self.product_id = product_id
+            self.order_number = order_number
+            self.quantity = quantity
+            self.name = name
+            self.item = item
+            self.item_details = item_details
             self.validate_data(order_number=order_number,
                                product_id=product_id, item=item,
                                name=name, quantity=quantity,
                                **item_details)
-            self.order_number = order_number
-            self.product_id = product_id
-            self.item = item
-            self.name = name
-            self.quantity = quantity
+            del item_details['holiday']
             item_details['name'] = name
             item_details['product_id'] = product_id
-            del item_details['holiday']
-            self.item_details = item_details
             self.factory = factory
             self.is_valid = True
         except InvalidDataError as e:
