@@ -1,8 +1,6 @@
 import abc
 
 
-
-
 # todo check if init should have @abc.method about it
 # todo consider making item super class because name, desc, and product_id
 # appear in all superclasses
@@ -84,7 +82,7 @@ class RobotBunny(Toy):
     def __init__(self, num_sound: int, colour: list, **kwargs):
         super().__init__(**kwargs)
         self.num_sound = num_sound
-        self.colour = ['Pink', 'Yellow', 'Blue']
+        self.colour = colour
 
 
 class StuffedAnimal(abc.ABC):
@@ -124,8 +122,6 @@ class DancingSkeleton(StuffedAnimal):
     def __init__(self, has_glow: bool, **kwargs):
         super().__init__(**kwargs)  # todo note if you pass the kwargs here
         # the super will not get the values changed below
-        kwargs['fabric'] = 'Acrylic'
-        kwargs['stuffing'] = 'Polyester Fiberfill'
         self.has_glow = True
 
 
@@ -141,8 +137,6 @@ class Reindeer(StuffedAnimal):
         :param kwargs: keyword arguments to create a StuffedAnimal
         """
         self.has_glow = True
-        kwargs['fabric'] = 'cotton'
-        kwargs['stuffing'] = 'wool'
         super().__init__(**kwargs)
 
 
@@ -153,9 +147,7 @@ class EasterBunny(StuffedAnimal):
 
     def __init__(self, colour, **kwargs):
         super().__init__(**kwargs)
-        kwargs['fabric'] = 'Linen'
-        kwargs['stuffing'] = 'Polyester Fiberfill'
-        self.colour = ['Pink', 'Yellow', 'Blue']
+        self.colour = colour
 
 
 # todo add other scuffed animals (get it?)...no
@@ -196,8 +188,8 @@ class PumpkinCaramelToffee(Candy):
     def __init__(self, variety: str, **kwargs):
         super().__init__(**kwargs)
         self.type = variety
-        kwargs['has_lactose'] = False
-        kwargs['has_nuts'] = True
+        # kwargs['has_lactose'] = False
+        # kwargs['has_nuts'] = True
 
 
 class CandyCanes(Candy):
@@ -212,8 +204,8 @@ class CandyCanes(Candy):
         :param kwargs: dict keyword arguments to create a Candy
         """
         self.colour = colour
-        kwargs['has_lactose'] = True
-        kwargs['has_nuts'] = False
+        # kwargs['has_lactose'] = True
+        # kwargs['has_nuts'] = False
         super().__init__(**kwargs)
 
 
@@ -226,5 +218,5 @@ class CremeEggs(Candy):
     def __init__(self, pack_size: int, **kwargs):
         super().__init__(**kwargs)
         self.pack_size = pack_size
-        kwargs['has_lactose'] = False
-        kwargs['has_nuts'] = True
+        # kwargs['has_lactose'] = False
+        # kwargs['has_nuts'] = True
