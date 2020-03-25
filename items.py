@@ -122,7 +122,7 @@ class DancingSkeleton(StuffedAnimal):
     def __init__(self, has_glow: bool, **kwargs):
         super().__init__(**kwargs)  # todo note if you pass the kwargs here
         # the super will not get the values changed below
-        self.has_glow = True
+        self.has_glow = has_glow
 
 
 class Reindeer(StuffedAnimal):
@@ -136,7 +136,7 @@ class Reindeer(StuffedAnimal):
         Initialize a reindeer with
         :param kwargs: keyword arguments to create a StuffedAnimal
         """
-        self.has_glow = True
+        self.has_glow = has_glow
         super().__init__(**kwargs)
 
 
@@ -188,8 +188,6 @@ class PumpkinCaramelToffee(Candy):
     def __init__(self, variety: str, **kwargs):
         super().__init__(**kwargs)
         self.type = variety
-        # kwargs['has_lactose'] = False
-        # kwargs['has_nuts'] = True
 
 
 class CandyCanes(Candy):
@@ -204,8 +202,6 @@ class CandyCanes(Candy):
         :param kwargs: dict keyword arguments to create a Candy
         """
         self.colour = colour
-        # kwargs['has_lactose'] = True
-        # kwargs['has_nuts'] = False
         super().__init__(**kwargs)
 
 
@@ -218,5 +214,3 @@ class CremeEggs(Candy):
     def __init__(self, pack_size: int, **kwargs):
         super().__init__(**kwargs)
         self.pack_size = pack_size
-        # kwargs['has_lactose'] = False
-        # kwargs['has_nuts'] = True
