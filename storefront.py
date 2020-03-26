@@ -27,15 +27,12 @@ class Store:
     order items and generating the daily transaction report.
     """
 
-    def __init__(self, item_list=None):
+    def __init__(self):
         """
-        Store is initialized with empty inventory.
-        :param item_list: a sequence of Order objects.
+        Store is initialized with empty inventory and order list.
         """
-        if item_list:
-            self.item_dic = item_list
-        else:
-            self.item_dic = {}
+
+        self.item_dic = {}
         self.orders = []
 
     def user_menu(self):
