@@ -1,3 +1,9 @@
+"""
+order_processor contains all of the functions to create an order from a
+excel file.
+"""
+import enum
+
 import pandas
 
 from factories import *
@@ -5,12 +11,19 @@ import sys
 
 
 class EventEnum(enum.Enum):
+    """
+    An enum containing all events related to an item.
+    """
     CHRISTMAS = 0,
     HALLOWEEN = 1,
     EASTER = 2
 
 
 class InvalidDataError(Exception):
+    """
+    Exception extension for invalid order data.
+    """
+
     def __init__(self, param, value, expected):
         super().__init__()
         self.param = param
@@ -19,9 +32,24 @@ class InvalidDataError(Exception):
 
 
 class Order:
+    """
+    Represents an order in the store, if the order is incorrect the
+    str dunder will let you know.
+    """
+
     def __init__(self, order_number: str, product_id: str, item: str,
                  name: str, factory: ItemFactory, quantity: int,
                  **item_details: dict) -> None:
+        """
+        Initializes an Order.
+        :param order_number: str
+        :param product_id: str
+        :param item: str
+        :param name: str
+        :param factory: ItemFactory
+        :param quantity: int
+        :param item_details: init data needed to create item
+        """
         try:
             self.product_id = product_id
             self.order_number = order_number
@@ -49,6 +77,7 @@ class Order:
 
     @staticmethod
     def validate_data(**kwargs) -> None:
+        """Checks if data is valid to create an item. """
         if kwargs['item'] == 'Toy':
             if kwargs['holiday'] == 'Christmas':
                 if kwargs['has_batteries']:
@@ -157,7 +186,8 @@ class Order:
 
 class OrderProcessor:
     """
-    Mapper
+    OrderProcessor contains functions to create an order from an excel
+    file.
     """
     # Maps world types to their respective factories
     item_factory_mapper = {
@@ -167,11 +197,19 @@ class OrderProcessor:
     }
 
     def __init__(self):
+        """
+        Initialize the OrderProcessor.
+        """
         pass
 
     def process_data(self, path: str) -> Order:
+        """
+        Creates an order from an excel file.
+        :param path: str
+        :return: yields an Order
+        """
         df = pandas.read_excel(path)
-        columns = df.columns.ravel()
+        # columns = df.columns.ravel()
         for k, row in df.iterrows():
             row = row.dropna().to_dict()
             try:
@@ -198,6 +236,10 @@ class OrderProcessor:
                 row['factory'] = self.get_factory(row['holiday'])
             except KeyError as e:
                 print('Invalid parameters!, missing: ' + str(e),
+                      file=sys.stderr)
+                print('at: ' + str(row), file=sys.stderr)
+            except AttributeError as e:
+                print('Invalid attribute! ' + str(e),
                       file=sys.stderr)
                 print('at: ' + str(row), file=sys.stderr)
             else:

@@ -1,4 +1,8 @@
+"""
+Items module contains all of the classes of items in a store.
+"""
 import abc
+
 
 class Toy(abc.ABC):
     """

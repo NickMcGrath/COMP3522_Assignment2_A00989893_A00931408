@@ -136,14 +136,9 @@ class Store:
 
 
 def main():
+    """Creates a store instance and displays the user menu."""
     store = Store()
-    # store.process_orders('orders.xlsx')
-    # for an_order in store.orders:
-    #     print(an_order)
-    # for k, v in store.item_dic.items():
-    #     print(k, len(v))
     store.user_menu()
-    #store.end_report()
 
 
 if __name__ == '__main__':
